@@ -106,7 +106,7 @@ class Bubble {
       this.update();
     }
     move(){
-      this.ax = this.axmult * sin(random(0, 180));
+      this.ax = this.axmult * sin(frameCount * 0.1);
       this.x += this.ax;
       if (this.y < windowHeight/2){
         this.speedy += this.ay;
