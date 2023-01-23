@@ -10,7 +10,8 @@
 // Globals
 let myInstance;
 let canvasContainer;
-
+var numofbubbles = 30;
+var bubbles = [numofbubbles];
 
 // setup() function is called once when the program starts
 function setup() {
@@ -29,13 +30,14 @@ function setup() {
     var centerHorz = windowWidth / 2;
     var centerVert = windowHeight / 2;
     noStroke();
-    var x = random(0,windowWidth);
-    var y = windowHeight - 10;
-    var d = random(10, 30);
-    var speedx = 1;
-    var speedy = -10
-    bubbles= new Bubble(x, y, d, speedx, speedy);
-    
+    for (let i = 0; i < numofbubbles; i++) {
+        var x = random(5,windowWidth-5);
+        var y = windowHeight - 10;
+        var d = random(10, 50);
+        var speedx = 1;
+        var speedy = random(-6, -8);
+        bubbles[i] = new Bubble(x, y, d, speedx, speedy);
+    }
 }
 
 // draw() function is called repeatedly, it's the main animation loop
@@ -46,7 +48,9 @@ function draw() {
 
     // Put drawings here
     background(0);
-    bubbles.run();
+    for (let i = 0; i < bubbles.length; i++){
+        bubbles[i].run();
+    }
 }
 
 // mousePressed() function is called once after every time a mouse button is pressed
@@ -61,11 +65,12 @@ class Bubble {
       this.speedx = _speedx;
       this.speedy = _speedy;
       this.ax = 0;
-      this.ay = 0.1;
-      this.axmult = 1.3;
+      this.ay = 0.05;
+      this.axmult = random(1.5, 3);
     }
     run(){
       this.move();
+      this.edgecheck();
       this.update();
     }
     move(){
@@ -75,10 +80,17 @@ class Bubble {
         this.speedy += this.ay;
       }
        this.y += this.speedy;
-      
     }
+    edgecheck(){
+        if (this.y < 0){
+          this.x = random(0 + 5,windowWidth + 5);
+          this.y = windowHeight - 5;
+          this.d = random(10, 50);
+          this.speedy = random(-6, -8);
+        }
+      }
     update(){
-      background(0);
+      
       circle (this.x,this.y,this.d);
     }
   }
