@@ -10,9 +10,8 @@
 // Globals
 let myInstance;
 let canvasContainer;
-var numofbubbles = 30;
+var numofbubbles = 20;
 var bubbles = [numofbubbles];
-
 // setup() function is called once when the program starts
 function setup() {
     // place our canvas, making it fit our container
@@ -52,7 +51,9 @@ function draw() {
         bubbles[i].run();
     }
 }
+function mouseMoved(){
 
+  }
 // mousePressed() function is called once after every time a mouse button is pressed
 function mousePressed() {
     // code to run when mouse is pressed
@@ -65,8 +66,8 @@ class Bubble {
       this.speedx = _speedx;
       this.speedy = _speedy;
       this.ax = 0;
-      this.ay = 0.05;
-      this.axmult = random(1.5, 3);
+      this.ay = 0.06;
+      this.axmult = random(1,2);
     }
     run(){
       this.move();
