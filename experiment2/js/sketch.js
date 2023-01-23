@@ -10,7 +10,7 @@
 // Globals
 let myInstance;
 let canvasContainer;
-var numofbubbles = 30;
+var numofbubbles = 40;
 var bubbles = [numofbubbles];
 var ices = [];
 var additionalbubbles = [];
