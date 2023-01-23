@@ -12,6 +12,8 @@ let myInstance;
 let canvasContainer;
 var numofbubbles = 20;
 var bubbles = [numofbubbles];
+var ices = [];
+var additionalbubbles = [];
 // setup() function is called once when the program starts
 function setup() {
     // place our canvas, making it fit our container
@@ -30,12 +32,7 @@ function setup() {
     var centerVert = windowHeight / 2;
     noStroke();
     for (let i = 0; i < numofbubbles; i++) {
-        var x = random(5,windowWidth-5);
-        var y = windowHeight - 10;
-        var d = random(10, 50);
-        var speedx = 1;
-        var speedy = random(-6, -8);
-        bubbles[i] = new Bubble(x, y, d, speedx, speedy);
+        bubbles[i] = new Bubble();
     }
 }
 
@@ -50,23 +47,33 @@ function draw() {
     for (let i = 0; i < bubbles.length; i++){
         bubbles[i].run();
     }
-}
-function mouseMoved(){
-
+    for (let i = 0; i < ices.length; i++){
+        ices[i].run();
+    }
+    for (let i = 0; i < additionalbubbles.length; i++){
+      additionalbubbles[i].runonce();
   }
+}
+function mouseDragged(){
+  additionalbubbles.push(new Bubble());
+}
+
 // mousePressed() function is called once after every time a mouse button is pressed
 function mousePressed() {
     // code to run when mouse is pressed
+    ices.push(new Ice());
 }
+
+//define my classes
 class Bubble {
-    constructor(_x,_y,_d,_speedx,_speedy){
-      this.x = _x;
-      this.y = _y;
-      this.d = _d;
-      this.speedx = _speedx;
-      this.speedy = _speedy;
+    constructor(){
+      this.x = random(5,windowWidth-5);
+      this.y = windowHeight - 10;
+      this.d = random(10, 50);
+      this.speedx = 1;
+      this.speedy = random(-8, -10);
       this.ax = 0;
-      this.ay = 0.06;
+      this.ay = 0.08;
       this.axmult = random(1,2);
     }
     run(){
@@ -74,25 +81,70 @@ class Bubble {
       this.edgecheck();
       this.update();
     }
+    runonce(){
+      this.move();
+      this.edgecheckonce();
+      this.update();
+    }
     move(){
       this.ax = this.axmult * sin(random(0, 180));
       this.x += this.ax;
-      if (this.y < windowHeight/3){
+      if (this.y < windowHeight/2){
         this.speedy += this.ay;
       }
        this.y += this.speedy;
     }
     edgecheck(){
-        if (this.y < 0){
+        if (this.y < -5){
           this.x = random(0 + 5,windowWidth + 5);
           this.y = windowHeight - 5;
           this.d = random(10, 50);
-          this.speedy = random(-6, -8);
+          this.speedy = random(-8, -10);
         }
       }
+    edgecheckonce(){
+      if (this.y <= -10){
+        //this.x = random(0 + 5,windowWidth + 5);
+        this.y = -50;
+        //this.d = random(10, 50);
+        this.speedy = 0;
+      }
+    }
     update(){
-      
       circle (this.x,this.y,this.d);
+    }
+  }
+  class Ice {
+    constructor (){
+        this.size = random(60,100);
+        this.x = random(windowWidth/2-50,windowWidth/2+50);
+        this.y = 0 - 5;
+        this.speeedy = 7;
+        this.ay = -0.1;
+        this.speedx = random(-5,5);
+    }
+    run(){
+      this.move();
+      this.update();
+    }
+
+    move(){
+      if (this.y < 0 - 120){
+        this.y = 0 - 120;
+      }
+      else{
+        this.speeedy += this.ay;
+        this.y += this.speeedy;
+        if (this.x < 0 || this.x > windowWidth - 140){
+          this.x += 0;
+        }
+        else{
+          this.x += this.speedx;
+        }
+      }
+    }
+    update(){
+      square(this.x,this.y,this.size);
     }
   }
 
