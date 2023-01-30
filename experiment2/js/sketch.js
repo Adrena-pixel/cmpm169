@@ -92,7 +92,7 @@ class Bubble {
       this.speedx = 1;
       this.speedy = random(-8, -10);
       this.ax = 0;
-      this.ay = 0.08;
+      this.ay = 0.06;
       this.axmult = random(1,2);
     }
     run(){

@@ -7,23 +7,11 @@
 
 // Constants - User-servicable parts
 // In a longer project I like to put these in a separate file
-const VALUE1 = 1;
-const VALUE2 = 2;
 
 // Globals
-let myInstance;
 let canvasContainer;
 
-class MyClass {
-    constructor(param1, param2) {
-        this.property1 = param1;
-        this.property2 = param2;
-    }
 
-    myMethod() {
-        // code to run when method is called
-    }
-}
 
 // setup() function is called once when the program starts
 function setup() {
@@ -33,35 +21,51 @@ function setup() {
     canvas.parent("canvas-container");
     // resize canvas is the page is resized
     $(window).resize(function() {
-        console.log("Resizing...");
+        //console.log("Resizing...");
         resizeCanvas(canvasContainer.width(), canvasContainer.height());
     });
-    // create an instance of the class
-    myInstance = new MyClass(VALUE1, VALUE2);
 
     var centerHorz = windowWidth / 2;
     var centerVert = windowHeight / 2;
+    //made degree angle
+    angleMode(DEGREES);
+    DrawingTree();
+    
 }
 
 // draw() function is called repeatedly, it's the main animation loop
 function draw() {
-    background(220);    
+    //background(100);    
     // call a method on the instance
-    myInstance.myMethod();
-
-    // Put drawings here
-    var centerHorz = canvasContainer.width() / 2 - 125;
-    var centerVert = canvasContainer.height() / 2 - 125;
-    fill(234, 31, 81);
-    noStroke();
-    rect(centerHorz, centerVert, 250, 250);
-    fill(255);
-    textStyle(BOLD);
-    textSize(140);
-    text("p5*", centerHorz + 10, centerVert + 200);
+    //set the 0,0 as the center of the canvas
+    
 }
 
 // mousePressed() function is called once after every time a mouse button is pressed
 function mousePressed() {
     // code to run when mouse is pressed
+    DrawingTree();
+}
+
+function branch(len){
+    push();
+    if (len > 10){
+        //control the thickness of the branch
+        strokeWeight(map(len,10,100,1,15));
+        line(0,0,0,-len);
+        //translate reset the position of 0,0
+        translate(0,-len);
+        //rotate the canvas by degree
+        rotate(random(20, 30));
+        branch(len * random(0.7,0.9));
+        rotate(random(-50, -60));
+        branch(len * random(0.7,0.9));
+    }
+    pop();
+}
+
+function DrawingTree(){
+    background(100);  
+    translate(width/2, height/2 + 200);
+    branch(100);
 }
