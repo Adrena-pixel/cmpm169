@@ -10,10 +10,6 @@
 
 // Globals
 let canvasContainer;
-
-
-
-// setup() function is called once when the program starts
 function setup() {
     // place our canvas, making it fit our container
     canvasContainer = $("#canvas-container");
